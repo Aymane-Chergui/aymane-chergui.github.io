@@ -67,8 +67,8 @@ I build **cross-platform mobile applications** from idea to production — speci
 ### 📊 GitHub Stats
 
 <div align="center">
-  <img height="160" src="https://github-readme-stats-git.vercel.app/api?username=Aymane-Chergui&show_icons=true&theme=tokyonight&hide_border=true&bg_color=070B18&title_color=60A5FA&text_color=ffffff&icon_color=2563EB" />
-  <img height="160" src="https://github-readme-stats-git.vercel.app/api/top-langs/?username=Aymane-Chergui&layout=compact&theme=tokyonight&hide_border=true&bg_color=070B18&title_color=60A5FA&text_color=ffffff" />
+  <img height="160" src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=Aymane-Chergui&theme=tokyonight" />
+  <img height="160" src="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=Aymane-Chergui&theme=tokyonight" />
 </div>
 
 <div align="center">
