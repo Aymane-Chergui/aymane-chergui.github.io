@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aymane Chergui — React Native Developer</title>
+  <meta name="description" content="Aymane Chergui — Mobile App Developer specialising in React Native, Expo, Firebase and GPS-powered applications for iOS & Android." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    /* ══════════════════════════════════════
+       RESET & VARIABLES
+    ══════════════════════════════════════ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:        #070B18;
+      --bg2:       #0D1226;
+      --bg3:       #111827;
+      --blue:      #2563EB;
+      --blue-light:#60A5FA;
+      --blue-glow: rgba(37,99,235,0.25);
+      --white:     #FFFFFF;
+      --gray:      rgba(255,255,255,0.55);
+      --gray-dim:  rgba(255,255,255,0.1);
+      --border:    rgba(255,255,255,0.08);
+      --radius:    14px;
+      --transition:0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    ::selection { background: var(--blue); color: #fff; }
+
+    /* ══════════════════════════════════════
+       SCROLLBAR
+    ══════════════════════════════════════ */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 10px; }
+
+    /* ══════════════════════════════════════
+       LANG TOGGLE
+    ══════════════════════════════════════ */
+    .lang-toggle {
+      position: fixed;
+      top: 20px;
+      right: 24px;
+      z-index: 1000;
+      display: flex;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+    }
+
+    .lang-btn {
+      padding: 7px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--gray);
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .lang-btn.active {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    /* ══════════════════════════════════════
+       NAV
+    ══════════════════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 6%;
+      transition: var(--transition);
+    }
+
+    nav.scrolled {
+      background: rgba(7,11,24,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-logo-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--blue), #1D4ED8);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 16px;
+    }
+
+    .nav-logo-text {
+      font-size: 16px; font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--white);
+    }
+
+    .nav-logo-text span { color: var(--blue-light); }
+
+    .nav-links {
+      display: flex; gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      background: var(--blue);
+      color: #fff !important;
+      padding: 9px 20px;
+      border-radius: 8px;
+      font-weight: 600 !important;
+      font-size: 13px;
+      transition: var(--transition) !important;
+    }
+
+    .nav-cta:hover { background: #1D4ED8 !important; transform: translateY(-1px); }
+
+    /* ══════════════════════════════════════
+       HERO
+    ══════════════════════════════════════ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 6% 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 60% 40%, rgba(37,99,235,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(37,99,235,0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 80%);
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 700px; }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(37,99,235,0.15);
+      border: 1px solid rgba(96,165,250,0.3);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--blue-light);
+      letter-spacing: 0.5px;
+      margin-bottom: 24px;
+    }
+
+    .hero-eyebrow-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #22C55E;
+      animation: pulse-green 2s infinite;
+    }
+
+    @keyframes pulse-green {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hero-title {
+      font-size: clamp(42px, 6vw, 72px);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -3px;
+      margin-bottom: 20px;
+    }
+
+    .hero-title .highlight {
+      background: linear-gradient(135deg, #60A5FA, #2563EB);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 17px;
+      color: var(--gray);
+      line-height: 1.7;
+      max-width: 520px;
+      margin-bottom: 36px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 60px;
+    }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--blue);
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      text-decoration: none;
+      transition: var(--transition);
+      box-shadow: 0 4px 20px rgba(37,99,235,0.4);
+    }
+
+    .btn-primary:hover {
+      background: #1D4ED8;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(37,99,235,0.5);
+    }
+
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      color: var(--white);
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-2px);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+    }
+
+    .hero-stat-num {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--white);
+    }
+
+    .hero-stat-num span { color: var(--blue-light); }
+
+    .hero-stat-label {
+      font-size: 11px;
+      color: var(--gray);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      background: var(--border);
+      align-self: stretch;
+    }
+
+    /* Floating phone mockup */
+    .hero-visual {
+      position: absolute;
+      right: 6%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 280px;
+    }
+
+    .hero-phone {
+      width: 100%;
+      border-radius: 36px;
+      border: 2px solid rgba(255,255,255,0.1);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.05),
+        0 40px 80px rgba(0,0,0,0.6),
+        0 0 60px rgba(37,99,235,0.2);
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-16px); }
+    }
+
+    /* ══════════════════════════════════════
+       SECTION SHARED
+    ══════════════════════════════════════ */
+    section { padding: 100px 6%; }
+
+    .section-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--blue-light);
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      margin-bottom: 14px;
+    }
+
+    .section-title span { color: var(--blue-light); }
+
+    .section-desc {
+      font-size: 15px;
+      color: var(--gray);
+      line-height: 1.7;
+      max-width: 520px;
+      margin-bottom: 56px;
+    }
+
+    /* Fade-in animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ══════════════════════════════════════
+       ABOUT
+    ══════════════════════════════════════ */
+    #about { background: var(--bg2); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .about-photo-wrap {
+      position: relative;
+    }
+
+    .about-photo {
+      width: 85%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+      border: 3px solid var(--blue);
+      box-shadow: 0 0 0 6px rgba(37,99,235,0.15), 0 20px 60px rgba(37,99,235,0.25);
+      display: block;
+      margin: 0 auto;
+    }
+
+    .about-photo-badge {
+      position: absolute;
+      bottom: -16px;
+      right: -16px;
+      background: var(--blue);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(37,99,235,0.4);
+    }
+
+    .about-photo-badge span { font-size: 20px; font-weight: 900; display: block; }
+
+    .about-text { }
+
+    .about-bio {
+      font-size: 15px;
+      color: var(--gray);
+      line-height: 1.75;
+      margin-bottom: 32px;
+    }
+
+    .about-highlights {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .about-highlight {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      font-weight: 500;
+    }
+
+    .about-highlight i { color: var(--blue-light); font-size: 14px; }
+
+    /* ══════════════════════════════════════
+       SKILLS
+    ══════════════════════════════════════ */
+    #skills { background: var(--bg); }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+    }
+
+    .skill-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      text-align: center;
+      transition: var(--transition);
+      cursor: default;
+    }
+
+    .skill-card:hover {
+      border-color: rgba(96,165,250,0.4);
+      background: rgba(37,99,235,0.08);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(37,99,235,0.15);
+    }
+
+    .skill-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .skill-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .skill-level {
+      font-size: 11px;
+      color: var(--blue-light);
+      font-weight: 500;
+    }
+
+    .skill-bar {
+      width: 100%;
+      height: 3px;
+      background: var(--gray-dim);
+      border-radius: 10px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+
+    .skill-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--blue-light));
+      border-radius: 10px;
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 1s ease 0.3s;
+    }
+
+    .skill-card.visible .skill-fill { transform: scaleX(1); }
+
+    /* ══════════════════════════════════════
+       PROJECTS
+    ══════════════════════════════════════ */
+    #projects { background: var(--bg2); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .project-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: var(--transition);
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+    }
+
+    .project-card:hover {
+      border-color: rgba(96,165,250,0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(37,99,235,0.1);
+    }
+
+    .project-img {
+      position: relative;
+      overflow: hidden;
+      min-height: 280px;
+    }
+
+    .project-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .project-card:hover .project-img img { transform: scale(1.05); }
+
+    .project-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(7,11,24,0.3), transparent);
+    }
+
+    .project-featured-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: linear-gradient(135deg, #2563EB, #1D4ED8);
+      color: #fff;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .project-info {
+      padding: 36px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .project-type {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--blue-light);
+      margin-bottom: 10px;
+    }
+
+    .project-name {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 14px;
+    }
+
+    .project-desc {
+      font-size: 13.5px;
+      color: var(--gray);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 28px;
+    }
+
+    .project-tag {
+      background: rgba(37,99,235,0.15);
+      border: 1px solid rgba(37,99,235,0.3);
+      color: var(--blue-light);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .project-link.primary {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .project-link.primary:hover {
+      background: #1D4ED8;
+      transform: translateY(-1px);
+    }
+
+    .project-link.secondary {
+      background: var(--gray-dim);
+      border: 1px solid var(--border);
+      color: var(--white);
+    }
+
+    .project-link.secondary:hover {
+      background: rgba(255,255,255,0.12);
+    }
+
+    /* Coming soon card */
+    .project-card-soon {
+      background: var(--bg3);
+      border: 1px dashed var(--border);
+      border-radius: 20px;
+      padding: 40px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .soon-icon {
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      background: rgba(37,99,235,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .soon-title { font-size: 17px; font-weight: 700; margin-bottom: 5px; }
+    .soon-desc { font-size: 13px; color: var(--gray); }
+
+    /* ══════════════════════════════════════
+       CONTACT
+    ══════════════════════════════════════ */
+    #contact { background: var(--bg); }
+
+    .contact-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .contact-wrap .section-eyebrow,
+    .contact-wrap .section-title,
+    .contact-wrap .section-desc { text-align: center; }
+
+    .contact-wrap .section-desc { max-width: 100%; }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .contact-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 24px;
+      text-decoration: none;
+      color: var(--white);
+      font-weight: 600;
+      font-size: 14px;
+      transition: var(--transition);
+      min-width: 180px;
+      justify-content: center;
+    }
+
+    .contact-card i { font-size: 18px; }
+    .contact-card.fiverr { border-color: rgba(29,191,115,0.3); }
+    .contact-card.fiverr:hover { background: rgba(29,191,115,0.1); border-color: rgba(29,191,115,0.6); transform: translateY(-3px); }
+    .contact-card.fiverr i { color: #1DBF73; }
+
+    .contact-card.github { border-color: rgba(255,255,255,0.15); }
+    .contact-card.github:hover { background: rgba(255,255,255,0.06); transform: translateY(-3px); }
+    .contact-card.github i { color: #fff; }
+
+    .contact-card.email { border-color: rgba(96,165,250,0.3); }
+    .contact-card.email:hover { background: rgba(96,165,250,0.08); border-color: rgba(96,165,250,0.5); transform: translateY(-3px); }
+    .contact-card.email i { color: var(--blue-light); }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 28px 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .footer-logo span { font-size: 14px; font-weight: 700; color: var(--gray); }
+    .footer-logo span em { color: var(--blue-light); font-style: normal; }
+
+    .footer-copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+
+    .footer-socials { display: flex; gap: 14px; }
+    .footer-socials a {
+      color: var(--gray);
+      font-size: 16px;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    .footer-socials a:hover { color: var(--blue-light); }
+
+    /* ══════════════════════════════════════
+       MOBILE RESPONSIVE
+    ══════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .hero-visual { display: none; }
+      .about-grid { grid-template-columns: 1fr; }
+      .project-card { grid-template-columns: 1fr; }
+      .project-img { min-height: 200px; }
+      nav .nav-links { display: none; }
+      footer { flex-direction: column; gap: 16px; text-align: center; }
+    }
+
+    @media (max-width: 600px) {
+      section { padding: 70px 5%; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── LANG TOGGLE ── -->
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btn-fr" onclick="setLang('fr')">FR</button>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       NAV
+  ══════════════════════════════════════ -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">
+      <div class="nav-logo-icon">AC</div>
+      <span class="nav-logo-text">Aymane<span>.dev</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about" data-i18n="nav_about">About</a></li>
+      <li><a href="#skills" data-i18n="nav_skills">Skills</a></li>
+      <li><a href="#projects" data-i18n="nav_projects">Projects</a></li>
+      <li><a href="#contact" class="nav-cta" data-i18n="nav_contact">Hire me</a></li>
+    </ul>
+  </nav>
+
+  <!-- ══════════════════════════════════════
+       HERO
+  ══════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="hero-eyebrow-dot"></span>
+        <span data-i18n="hero_available">Available for freelance work</span>
+      </div>
+
+      <h1 class="hero-title">
+        <span data-i18n="hero_title_1">Building</span><br>
+        <span class="highlight" data-i18n="hero_title_2">Mobile Apps</span><br>
+        <span data-i18n="hero_title_3">that Ship.</span>
+      </h1>
+
+      <p class="hero-subtitle" data-i18n="hero_subtitle">
+        React Native & Expo developer specialising in cross-platform mobile applications — from food delivery to real-time GPS ride-hailing. iOS & Android from a single codebase.
+      </p>
+
+      <div class="hero-btns">
+        <a href="#projects" class="btn-primary">
+          <i class="fa-solid fa-rocket"></i>
+          <span data-i18n="hero_cta1">View my work</span>
+        </a>
+        <a href="https://fr.fiverr.com/aymanechergui" target="_blank" class="btn-secondary">
+          <i class="fa-solid fa-briefcase"></i>
+          <span data-i18n="hero_cta2">Hire me on Fiverr</span>
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">iOS <span>&</span> Android</div>
+          <div class="hero-stat-label" data-i18n="stat_platform">Cross-platform</div>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div>
+          <div class="hero-stat-num">Real<span>-time</span></div>
+          <div class="hero-stat-label" data-i18n="stat_realtime">GPS & Firebase</div>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div>
+          <div class="hero-stat-num">1<span>+</span></div>
+          <div class="hero-stat-label" data-i18n="stat_apps">Deployed App</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <img src="bleugo_project_card.png" alt="BleuGo App" class="hero-phone" />
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       ABOUT
+  ══════════════════════════════════════ -->
+  <section id="about">
+    <div class="about-grid fade-in">
+      <div class="about-photo-wrap">
+        <img src="photo.jpg" class="about-photo" alt="Aymane Chergui" />
+        <div class="about-photo-badge">
+          <span>2026</span>
+          <span data-i18n="badge_react">React Native Dev</span>
+        </div>
+      </div>
+
+      <div class="about-text">
+        <div class="section-eyebrow" data-i18n="about_eyebrow">About me</div>
+        <h2 class="section-title" data-i18n="about_title">Passionate about <span>Mobile</span></h2>
+        <p class="about-bio" data-i18n="about_bio">
+          I'm Aymane Chergui, a mobile app developer based in Morocco. I specialise in building real-world, production-ready applications using React Native and Expo — from the first line of code to the App Store deployment. My latest project, BleuGo, is a complete super-app combining food delivery, ride-hailing, and a merchant back-office with real-time GPS tracking and Firebase infrastructure.
+        </p>
+        <div class="about-highlights">
+          <div class="about-highlight"><i class="fa-solid fa-check-circle"></i><span data-i18n="hl1">React Native & Expo</span></div>
+          <div class="about-highlight"><i class="fa-solid fa-check-circle"></i><span data-i18n="hl2">Firebase Architecture</span></div>
+          <div class="about-highlight"><i class="fa-solid fa-check-circle"></i><span data-i18n="hl3">Google Maps & GPS</span></div>
+          <div class="about-highlight"><i class="fa-solid fa-check-circle"></i><span data-i18n="hl4">iOS & Android Deployment</span></div>
+          <div class="about-highlight"><i class="fa-solid fa-check-circle"></i><span data-i18n="hl5">TypeScript & Clean Code</span></div>
+          <div class="about-highlight"><i class="fa-solid fa-check-circle"></i><span data-i18n="hl6">Multi-Language Apps (i18n)</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SKILLS
+  ══════════════════════════════════════ -->
+  <section id="skills">
+    <div class="section-eyebrow fade-in" data-i18n="skills_eyebrow">Tech Stack</div>
+    <h2 class="section-title fade-in" data-i18n="skills_title">What I <span>Work With</span></h2>
+    <p class="section-desc fade-in" data-i18n="skills_desc">
+      Every tool I use is production-tested — chosen for performance, scalability, and developer experience.
+    </p>
+
+    <div class="skills-grid">
+      <div class="skill-card fade-in">
+        <div class="skill-icon">📱</div>
+        <div class="skill-name">React Native</div>
+        <div class="skill-level">Expert</div>
+        <div class="skill-bar"><div class="skill-fill" style="--w:0.95"></div></div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-icon">⚡</div>
+        <div class="skill-name">Expo</div>
+        <div class="skill-level">Expert</div>
+        <div class="skill-bar"><div class="skill-fill" style="--w:0.93"></div></div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-icon">🔷</div>
+        <div class="skill-name">TypeScript</div>
+        <div class="skill-level">Advanced</div>
+        <div class="skill-bar"><div class="skill-fill" style="--w:0.88"></div></div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-icon">🔥</div>
+        <div class="skill-name">Firebase</div>
+        <div class="skill-level">Expert</div>
+        <div class="skill-bar"><div class="skill-fill" style="--w:0.92"></div></div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-icon">🗺️</div>
+        <div class="skill-name">Google Maps</div>
+        <div class="skill-level">Advanced</div>
+        <div class="skill-bar"><div class="skill-fill" style="--w:0.85"></div></div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-icon">📍</div>
+        <div class="skill-name">GPS Tracking</div>
+        <div class="skill-level">Advanced</div>
+        <div class="skill-bar"><div class="skill-fill" style="--w:0.87"></div></div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-icon">🔔</div>
+        <div class="skill-name">Push Notifications</div>
+        <div class="skill-level">Advanced</div>
+        <div class="skill-bar"><div class="skill-fill" style="--w:0.85"></div></div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-icon">🌍</div>
+        <div class="skill-name">i18n / Localisation</div>
+        <div class="skill-level">Intermediate</div>
+        <div class="skill-bar"><div class="skill-fill" style="--w:0.80"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       PROJECTS
+  ══════════════════════════════════════ -->
+  <section id="projects">
+    <div class="section-eyebrow fade-in" data-i18n="proj_eyebrow">Portfolio</div>
+    <h2 class="section-title fade-in" data-i18n="proj_title">Featured <span>Projects</span></h2>
+    <p class="section-desc fade-in" data-i18n="proj_desc">
+      Real apps. Real users. Built from scratch and shipped to production.
+    </p>
+
+    <div class="projects-grid">
+      <!-- BleuGo -->
+      <div class="project-card fade-in">
+        <div class="project-img">
+          <img src="bleugo_project_card.png" alt="BleuGo App" />
+          <div class="project-img-overlay"></div>
+          <span class="project-featured-badge">⭐ Featured</span>
+        </div>
+        <div class="project-info">
+          <div class="project-type" data-i18n="bleugo_type">Super App · React Native</div>
+          <h3 class="project-name">BleuGo</h3>
+          <p class="project-desc" data-i18n="bleugo_desc">
+            A complete delivery & ride-hailing platform (like Uber + Deliveroo) with a Client app, Driver app, and full Admin panel. Features real-time GPS tracking, in-app chat, push notifications, and Google Maps integration.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">React Native</span>
+            <span class="project-tag">Firebase</span>
+            <span class="project-tag">Google Maps</span>
+            <span class="project-tag">GPS Tracking</span>
+            <span class="project-tag">TypeScript</span>
+            <span class="project-tag">Expo</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/Aymane-Chergui" target="_blank" class="project-link primary">
+              <i class="fa-brands fa-github"></i>
+              <span data-i18n="view_github">View on GitHub</span>
+            </a>
+            <a href="https://fr.fiverr.com/aymanechergui" target="_blank" class="project-link secondary">
+              <i class="fa-solid fa-briefcase"></i>
+              <span data-i18n="hire_me">Hire me</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coming Soon -->
+      <div class="project-card-soon fade-in">
+        <div class="soon-icon">🚀</div>
+        <div>
+          <div class="soon-title" data-i18n="soon_title">More projects coming soon</div>
+          <div class="soon-desc" data-i18n="soon_desc">I'm currently working on new projects. Check back or contact me to see what I can build for you.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       CONTACT
+  ══════════════════════════════════════ -->
+  <section id="contact">
+    <div class="contact-wrap fade-in">
+      <div class="section-eyebrow" data-i18n="contact_eyebrow">Get in touch</div>
+      <h2 class="section-title" data-i18n="contact_title">Let's build something <span>great</span></h2>
+      <p class="section-desc" data-i18n="contact_desc">
+        Have an app idea? Looking for a React Native developer for your next project? I'm available for freelance work. Let's talk.
+      </p>
+      <div class="contact-links">
+        <a href="https://fr.fiverr.com/aymanechergui" target="_blank" class="contact-card fiverr">
+          <i class="fa-solid fa-briefcase"></i>
+          <span>Fiverr</span>
+        </a>
+        <a href="https://github.com/Aymane-Chergui" target="_blank" class="contact-card github">
+          <i class="fa-brands fa-github"></i>
+          <span>GitHub</span>
+        </a>
+        <a href="mailto:chergui.aymanee86@gmail.com" class="contact-card email">
+          <i class="fa-solid fa-envelope"></i>
+          <span>Email</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════ -->
+  <footer>
+    <a href="#hero" class="footer-logo">
+      <span>Aymane Chergui &nbsp;·&nbsp; <em>React Native Dev</em></span>
+    </a>
+    <div class="footer-copy" data-i18n="footer_copy">© 2026 Aymane Chergui. All rights reserved.</div>
+    <div class="footer-socials">
+      <a href="https://github.com/Aymane-Chergui" target="_blank"><i class="fa-brands fa-github"></i></a>
+      <a href="https://fr.fiverr.com/aymanechergui" target="_blank"><i class="fa-solid fa-briefcase"></i></a>
+    </div>
+  </footer>
+
+  <!-- ══════════════════════════════════════
+       JAVASCRIPT
+  ══════════════════════════════════════ -->
+  <script>
+    // ── TRANSLATIONS ──
+    const translations = {
+      en: {
+        nav_about: "About", nav_skills: "Skills", nav_projects: "Projects", nav_contact: "Hire me",
+        hero_available: "Available for freelance work",
+        hero_title_1: "Building", hero_title_2: "Mobile Apps", hero_title_3: "that Ship.",
+        hero_subtitle: "React Native & Expo developer specialising in cross-platform mobile applications — from food delivery to real-time GPS ride-hailing. iOS & Android from a single codebase.",
+        hero_cta1: "View my work", hero_cta2: "Hire me on Fiverr",
+        stat_platform: "Cross-platform", stat_realtime: "GPS & Firebase", stat_apps: "Deployed App",
+        about_eyebrow: "About me", about_title: "Passionate about Mobile",
+        about_bio: "I'm Aymane Chergui, a mobile app developer based in Morocco. I specialise in building real-world, production-ready applications using React Native and Expo — from the first line of code to the App Store deployment. My latest project, BleuGo, is a complete super-app combining food delivery, ride-hailing, and a merchant back-office with real-time GPS tracking and Firebase infrastructure.",
+        hl1: "React Native & Expo", hl2: "Firebase Architecture", hl3: "Google Maps & GPS",
+        hl4: "iOS & Android Deployment", hl5: "TypeScript & Clean Code", hl6: "Multi-Language Apps (i18n)",
+        photo_placeholder: "Add your photo here", badge_react: "React Native Dev",
+        skills_eyebrow: "Tech Stack", skills_title: "What I Work With",
+        skills_desc: "Every tool I use is production-tested — chosen for performance, scalability, and developer experience.",
+        proj_eyebrow: "Portfolio", proj_title: "Featured Projects",
+        proj_desc: "Real apps. Real users. Built from scratch and shipped to production.",
+        bleugo_type: "Super App · React Native",
+        bleugo_desc: "A complete delivery & ride-hailing platform (like Uber + Deliveroo) with a Client app, Driver app, and full Admin panel. Features real-time GPS tracking, in-app chat, push notifications, and Google Maps integration.",
+        view_github: "View on GitHub", hire_me: "Hire me",
+        soon_title: "More projects coming soon",
+        soon_desc: "I'm currently working on new projects. Check back or contact me to see what I can build for you.",
+        contact_eyebrow: "Get in touch", contact_title: "Let's build something great",
+        contact_desc: "Have an app idea? Looking for a React Native developer for your next project? I'm available for freelance work. Let's talk.",
+        footer_copy: "© 2026 Aymane Chergui. All rights reserved."
+      },
+      fr: {
+        nav_about: "À propos", nav_skills: "Compétences", nav_projects: "Projets", nav_contact: "Me recruter",
+        hero_available: "Disponible pour des missions freelance",
+        hero_title_1: "Je crée des", hero_title_2: "Apps Mobiles", hero_title_3: "qui se déploient.",
+        hero_subtitle: "Développeur React Native & Expo spécialisé dans les applications cross-platform — de la livraison de repas au VTC avec géolocalisation en temps réel. iOS et Android depuis un seul code.",
+        hero_cta1: "Voir mes projets", hero_cta2: "Me recruter sur Fiverr",
+        stat_platform: "Cross-platform", stat_realtime: "GPS & Firebase", stat_apps: "App déployée",
+        about_eyebrow: "À propos", about_title: "Passionné par le Mobile",
+        about_bio: "Je suis Aymane Chergui, développeur d'applications mobiles basé au Maroc. Je me spécialise dans la création d'applications prêtes pour la production avec React Native et Expo — du premier commit au déploiement sur l'App Store. Mon dernier projet, BleuGo, est une super-application combinant livraison, VTC et back-office commerçant avec suivi GPS en temps réel et infrastructure Firebase.",
+        hl1: "React Native & Expo", hl2: "Architecture Firebase", hl3: "Google Maps & GPS",
+        hl4: "Déploiement iOS & Android", hl5: "TypeScript & Code propre", hl6: "Applications multilingues (i18n)",
+        photo_placeholder: "Ajoutez votre photo ici", badge_react: "Dev React Native",
+        skills_eyebrow: "Stack Technique", skills_title: "Mes Outils",
+        skills_desc: "Chaque outil que j'utilise est testé en production — choisi pour la performance, la scalabilité et l'expérience développeur.",
+        proj_eyebrow: "Portfolio", proj_title: "Projets en vedette",
+        proj_desc: "De vraies applications. De vrais utilisateurs. Construites de zéro et livrées en production.",
+        bleugo_type: "Super App · React Native",
+        bleugo_desc: "Une plateforme complète de livraison et de VTC (type Uber + Deliveroo) avec une app Client, une app Chauffeur et un panneau Admin. Suivi GPS en temps réel, chat intégré, notifications push et intégration Google Maps.",
+        view_github: "Voir sur GitHub", hire_me: "Me recruter",
+        soon_title: "D'autres projets arrivent bientôt",
+        soon_desc: "Je travaille actuellement sur de nouveaux projets. Revenez bientôt ou contactez-moi pour voir ce que je peux créer pour vous.",
+        contact_eyebrow: "Contact", contact_title: "Construisons quelque chose de grand",
+        contact_desc: "Vous avez une idée d'application ? Vous cherchez un développeur React Native ? Je suis disponible pour des missions freelance. Parlons-en.",
+        footer_copy: "© 2026 Aymane Chergui. Tous droits réservés."
+      }
+    };
+
+    let currentLang = 'en';
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
+      const t = translations[lang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) el.textContent = t[key];
+      });
+    }
+
+    // ── NAVBAR SCROLL ──
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // ── FADE IN OBSERVER ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+            // Trigger skill bars
+            const fill = entry.target.querySelector('.skill-fill');
+            if (fill) {
+              const w = fill.style.getPropertyValue('--w') || 0.8;
+              fill.style.width = (parseFloat(w) * 100) + '%';
+            }
+          }, i * 80);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // ── SKILL BAR SPECIAL OBSERVER ──
+    const skillObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const fill = entry.target.querySelector('.skill-fill');
+          if (fill) {
+            const w = fill.style.getPropertyValue('--w') || '0.8';
+            fill.style.width = (parseFloat(w) * 100) + '%';
+          }
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.skill-card').forEach(el => skillObserver.observe(el));
+  </script>
+</body>
+</html>
