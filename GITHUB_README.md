@@ -5,6 +5,7 @@
 
   <!-- Badges -->
   ![](https://komarev.com/ghpvc/?username=Aymane-Chergui&color=2563EB&style=flat-square&label=Profile+Views)
+  [![Portfolio](https://img.shields.io/badge/Visit%20My%20Portfolio-%232563EB?style=flat-square&logo=googlechrome&logoColor=white)](https://aymane-chergui.github.io/)
   [![Fiverr](https://img.shields.io/badge/Hire%20me%20on%20Fiverr-%231DBF73?style=flat-square&logo=fiverr&logoColor=white)](https://fr.fiverr.com/aymanechergui)
 
 </div>
@@ -81,6 +82,7 @@ I build **cross-platform mobile applications** from idea to production — speci
 
 <div align="center">
 
+[![Portfolio](https://img.shields.io/badge/Portfolio%20Website-%232563EB?style=for-the-badge&logo=googlechrome&logoColor=white)](https://aymane-chergui.github.io/)
 [![Fiverr](https://img.shields.io/badge/Fiverr%20Profile-%231DBF73?style=for-the-badge&logo=fiverr&logoColor=white)](https://fr.fiverr.com/aymanechergui)
 [![Email](https://img.shields.io/badge/Email-%232563EB?style=for-the-badge&logo=gmail&logoColor=white)](mailto:cherguiaymane669@gmail.com)
 [![GitHub](https://img.shields.io/badge/GitHub-%23181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Aymane-Chergui)
